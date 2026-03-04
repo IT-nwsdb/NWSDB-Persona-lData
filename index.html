@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Personal File Details</title>
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+<link href="styles.css" rel="stylesheet">
+</link></head>
+<body class="bg-light">
+<!-- Intro -->
+<div class="intro" id="intro">
+<div class="text-center">
+<div class="spinner-ring"></div>
+<div class="shimmer mb-3">
+<i class="bi bi-folder2-open"></i>
+<span class="fw-semibold">Personal File Details</span>
+</div>
+<div class="text-secondary loading-dots">Loading</div>
+</div>
+</div>
+
+<header class="bg-white border-bottom">
+<div class="container py-3 d-flex justify-content-between align-items-center">
+<div class="d-flex align-items-center gap-2 flex-wrap">
+<strong>Personal File Details</strong>
+<span class="badge text-bg-light border d-none" id="contextBadge"></span>
+</div>
+<div class="d-flex align-items-center gap-2">
+<button class="btn btn-sm btn-outline-primary d-none" id="changeContextBtn" type="button">
+<i class="bi bi-geo-alt"></i> Change
+    </button>
+<button class="btn btn-sm btn-outline-secondary d-none" id="backBtn">
+<i class="bi bi-arrow-left"></i> Back
+    </button>
+</div>
+</div>
+</header>
+<main class="container py-4">
+
+<!-- REGION / LOCATION -->
+<section class="d-none" id="regionView">
+  <div class="card shadow-sm">
+    <div class="card-header bg-white fw-semibold d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <span>Select Region &amp; Location</span>
+      <span class="text-secondary small"></span>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label">Region <span class="text-danger">*</span></label>
+          <select class="form-select" id="regionSelect" required>
+            <option value="" selected disabled>Select region</option>
+            <option value="RSC">RSC</option>
+            <option value="Central North">Central North </option>
+            <option value="Central East">Central East</option>
+            <option value="Central South">Central South</option>
+            <option value="Matale">Matale</option>
+          </select>
+          <div class="invalid-feedback">Select a region.</div>
+        </div>
+
+        <div class="col-12 col-md-6" id="locationWrap">
+          <label class="form-label">Location <span class="text-danger">*</span></label>
+          <select class="form-select" id="locationSelect" required>
+            <option value="" selected disabled>Select location</option>
+          </select>
+          <div class="invalid-feedback">Select a location.</div>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 mt-4">
+        <button class="btn btn-primary" id="regionContinueBtn" type="button" disabled>
+          <i class="bi bi-arrow-right-circle"></i> Continue
+        </button>
+        <button class="btn btn-outline-secondary" id="regionClearBtn" type="button">
+          <i class="bi bi-x-circle"></i> Clear
+        </button>
+      </div>
+
+      
+    </div>
+  </div>
+</section>
+
+<!-- HOME -->
+<section id="homeView">
+<div class="card shadow-sm">
+<div class="card-header bg-white fw-semibold d-flex align-items-center justify-content-between">
+<span>Select a section</span>
+<div class="d-flex align-items-center gap-2">
+<span class="badge text-bg-secondary d-none" id="viewModeBadge">Viewing records</span>
+<button class="btn btn-outline-primary btn-sm" id="viewRecordsBtn" type="button">
+<i class="bi bi-table"></i> View records
+    </button>
+</div>
+</div>
+<div class="list-group list-group-flush" id="sectionList"></div>
+</div>
+</section>
+<!-- STAFF LIST WIZARD -->
+<!-- TRANSFERS: form -->
+<section class="d-none" id="transfersView">
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+<div>
+<h2 class="h5 mb-1">Transfers</h2>
+<div class="text-secondary small">Step-by-step transfer form .</div>
+</div>
+<div class="d-flex gap-2">
+<button class="btn btn-outline-secondary btn-sm" id="transferClearBtn" type="button">
+<i class="bi bi-eraser"></i> Clear
+          </button>
+<button class="btn btn-primary btn-sm" id="transferSaveBtn" type="button">
+<i class="bi bi-check2-circle"></i> Save
+          </button>
+</div>
+</div>
+<div class="card shadow-sm border-0">
+<div class="card-body p-0">
+<div class="p-3 p-md-4 border-bottom bg-white rounded-top">
+<div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+<div class="d-flex align-items-center gap-2">
+<span class="step-badge" id="transferStepBadge">Step 1 of 3</span>
+<span class="text-secondary small" id="transferStepHint">Identity details</span>
+</div>
+<div class="wizard-progress">
+<div class="wizard-progress-bar" id="transferProgressBar" style="width: 33%;"></div>
+</div>
+</div>
+<div class="mt-3">
+<ul class="nav nav-pills nav-fill gap-2 wizard-tabs" id="transferTabs" role="tablist">
+<li class="nav-item" role="presentation">
+<button class="nav-link active" data-step="0" type="button">1. Identity</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" data-step="1" type="button">2. Employment</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" data-step="2" type="button">3. Transfer</button>
+</li>
+</ul>
+</div>
+</div>
+<div class="p-3 p-md-4">
+<form class="needs-validation" id="transferForm" novalidate="">
+<div class="wizard-step transfer-step" data-step="0">
+<div class="row g-3">
+<div class="col-12 col-md-2">
+<label class="form-label">Title <span class="text-danger">*</span></label>
+<select class="form-select" id="t_title" required="">
+<option disabled="" selected="" value="">Select</option>
+<option>Mr</option>
+<option>Mrs</option>
+<option>Ms</option>
+</select>
+<div class="invalid-feedback">Select a title.</div>
+</div>
+<div class="col-12 col-md-7">
+<label class="form-label">Name <span class="text-danger">*</span></label>
+<input class="form-control" id="t_name" placeholder="Full name" required=""/>
+<div class="invalid-feedback">Enter the name.</div>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">ID. No</label>
+<input class="form-control" id="t_idNo" placeholder="NIC / ID"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Emp No</label>
+<input class="form-control" id="t_empNo" placeholder="E-123"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">P File No</label>
+<input class="form-control" id="t_pFileNo" placeholder="PF-456"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Contact No</label>
+<input class="form-control" id="t_contactNo" inputmode="tel" placeholder="+94 7X XXX XXXX"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Date of Birth</label>
+<input class="form-control" id="t_dob" type="date"/>
+</div>
+</div>
+</div>
+<div class="wizard-step transfer-step d-none" data-step="1">
+<div class="row g-3">
+<div class="col-12 col-lg-6">
+<label class="form-label">Designation Category <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="t_designationCategory" required=""><option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="t_designationCategory" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select designation category.</div>
+</div>
+<div class="col-12 col-lg-6">
+<label class="form-label">Designation <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="t_designation" required=""><option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="t_designation" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select designation.</div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Employment Type <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="t_employmentType" required="">
+<option disabled="" selected="" value="">Select employment type</option>
+<option>Permanent</option>
+<option>Trainee</option>
+<option>Contract</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="t_employmentType" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select employment type.</div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Date of Appointment <span class="text-danger">*</span></label>
+<input class="form-control" id="t_appointmentDate" required="" type="date"/>
+<div class="invalid-feedback">Select appointment date.</div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Service Duration in NWSDB</label>
+<div class="input-group">
+<span class="input-group-text"><i class="bi bi-hourglass-split"></i></span>
+<input class="form-control" id="t_serviceDurationNWSDB" placeholder="Auto calculated" readonly=""/>
+</div>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Board Grade</label>
+<input class="form-control" id="t_boardGrade" placeholder="Grade 2"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Site</label>
+<input class="form-control" id="t_site" placeholder="Site / Location"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Department</label>
+<input class="form-control" id="t_department" placeholder="Department"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Increment Date</label>
+<input class="form-control" id="t_incrementDate" type="date"/>
+</div>
+</div>
+</div>
+<div class="wizard-step transfer-step d-none" data-step="2">
+<div class="row g-3">
+<div class="col-12 col-md-4">
+<label class="form-label">Duty Report Date</label>
+<input class="form-control" id="t_dutyReportDate" type="date"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Service Duration in CE</label>
+<input class="form-control" id="t_serviceDurationCE" placeholder="e.g., 2 years"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Date of Retirement</label>
+<input class="form-control" id="t_retirementDate" type="date"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Transfer Date</label>
+<input class="form-control" id="t_transferDate" type="date"/>
+</div>
+<div class="col-12 col-md-8">
+<label class="form-label">Transferred Location</label>
+<input class="form-control" id="t_transferredLocation" placeholder="Transferred to (location / site)"/>
+</div>
+<div class="col-12">
+<label class="form-label">Remarks</label>
+<textarea class="form-control" id="t_remarks" placeholder="Any remarks..." rows="4"></textarea>
+</div>
+</div>
+</div>
+<div class="alert alert-success mt-4 d-none" id="transferSavedAlert" role="alert">
+                Saved to Firestore.
+              </div>
+<div class="d-flex justify-content-between align-items-center mt-4">
+<button class="btn btn-outline-secondary" id="transferPrevBtn" type="button">
+<i class="bi bi-chevron-left"></i> Previous
+                </button>
+<button class="btn btn-primary" id="transferNextBtn" type="button">
+                  Next <i class="bi bi-chevron-right"></i>
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- RETIRED STAFF: form -->
+<section class="d-none" id="retiredView">
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+<div>
+<h2 class="h5 mb-1">Retired Staff List</h2>
+<div class="text-secondary small">Step-by-step retired staff form </div>
+</div>
+<div class="d-flex gap-2">
+<button class="btn btn-outline-secondary btn-sm" id="retiredClearBtn" type="button">
+<i class="bi bi-eraser"></i> Clear
+          </button>
+<button class="btn btn-primary btn-sm" id="retiredSaveBtn" type="button">
+<i class="bi bi-check2-circle"></i> Save 
+          </button>
+</div>
+</div>
+<div class="card shadow-sm border-0">
+<div class="card-body p-0">
+<div class="p-3 p-md-4 border-bottom bg-white rounded-top">
+<div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+<div class="d-flex align-items-center gap-2">
+<span class="step-badge" id="retiredStepBadge">Step 1 of 3</span>
+<span class="text-secondary small" id="retiredStepHint">Identity details</span>
+</div>
+<div class="wizard-progress">
+<div class="wizard-progress-bar" id="retiredProgressBar" style="width: 33%;"></div>
+</div>
+</div>
+<div class="mt-3">
+<ul class="nav nav-pills nav-fill gap-2 wizard-tabs" id="retiredTabs" role="tablist">
+<li class="nav-item" role="presentation">
+<button class="nav-link active" data-step="0" type="button">1. Identity</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" data-step="1" type="button">2. Employment</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" data-step="2" type="button">3. Dates &amp; Remarks</button>
+</li>
+</ul>
+</div>
+</div>
+<div class="p-3 p-md-4">
+<form class="needs-validation" id="retiredForm" novalidate="">
+<div class="wizard-step retired-step" data-step="0">
+<div class="row g-3">
+<div class="col-12 col-md-2">
+<label class="form-label">Title <span class="text-danger">*</span></label>
+<select class="form-select" id="r_title" required="">
+<option disabled="" selected="" value="">Select</option>
+<option>Mr</option>
+<option>Mrs</option>
+<option>Ms</option>
+</select>
+<div class="invalid-feedback">Select a title.</div>
+</div>
+<div class="col-12 col-md-7">
+<label class="form-label">Name <span class="text-danger">*</span></label>
+<input class="form-control" id="r_name" placeholder="Full name" required=""/>
+<div class="invalid-feedback">Enter the name.</div>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">ID. No</label>
+<input class="form-control" id="r_idNo" placeholder="NIC / ID"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Emp No</label>
+<input class="form-control" id="r_empNo" placeholder="E-123"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">P File No</label>
+<input class="form-control" id="r_pFileNo" placeholder="PF-456"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Contact No</label>
+<input class="form-control" id="r_contactNo" inputmode="tel" placeholder="+94 7X XXX XXXX"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Date of Birth</label>
+<input class="form-control" id="r_dob" type="date"/>
+</div>
+</div>
+</div>
+<div class="wizard-step retired-step d-none" data-step="1">
+<div class="row g-3">
+<div class="col-12 col-lg-6">
+<label class="form-label">Designation Category <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="r_designationCategory" required=""><option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="r_designationCategory" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select designation category.</div>
+</div>
+<div class="col-12 col-lg-6">
+<label class="form-label">Designation <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="r_designation" required=""><option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="r_designation" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select designation.</div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Employment Type <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="r_employmentType" required="">
+<option disabled="" selected="" value="">Select employment type</option>
+<option>Permanent</option>
+<option>Trainee</option>
+<option>Contract</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="r_employmentType" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select employment type.</div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Date of Appointment <span class="text-danger">*</span></label>
+<input class="form-control" id="r_appointmentDate" required="" type="date"/>
+<div class="invalid-feedback">Select appointment date.</div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Service Duration in NWSDB</label>
+<div class="input-group">
+<span class="input-group-text"><i class="bi bi-hourglass-split"></i></span>
+<input class="form-control" id="r_serviceDurationNWSDB" placeholder="Auto calculated" readonly=""/>
+</div>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Board Grade</label>
+<input class="form-control" id="r_boardGrade" placeholder="Grade 2"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Site</label>
+<input class="form-control" id="r_site" placeholder="Site / Location"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Department</label>
+<input class="form-control" id="r_department" placeholder="Department"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Increment Date</label>
+<input class="form-control" id="r_incrementDate" type="date"/>
+</div>
+</div>
+</div>
+<div class="wizard-step retired-step d-none" data-step="2">
+<div class="row g-3">
+<div class="col-12 col-md-4">
+<label class="form-label">Duty Report Date</label>
+<input class="form-control" id="r_dutyReportDate" type="date"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Service Duration in CE</label>
+<input class="form-control" id="r_serviceDurationCE" placeholder="e.g., 2 years"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Date of Retirement</label>
+<input class="form-control" id="r_retirementDate" type="date"/>
+</div>
+<div class="col-12">
+<label class="form-label">Remarks</label>
+<textarea class="form-control" id="r_remarks" placeholder="Any remarks..." rows="4"></textarea>
+</div>
+</div>
+</div>
+<div class="alert alert-success mt-4 d-none" id="retiredSavedAlert" role="alert">
+                Saved to Firestore.
+              </div>
+<div class="d-flex justify-content-between align-items-center mt-4">
+<button class="btn btn-outline-secondary" id="retiredPrevBtn" type="button">
+<i class="bi bi-chevron-left"></i> Previous
+                </button>
+<button class="btn btn-primary" id="retiredNextBtn" type="button">
+                  Next <i class="bi bi-chevron-right"></i>
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- CONTRACT: form -->
+<section class="d-none" id="contractView">
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+<div>
+<h2 class="h5 mb-1">Contract</h2>
+<div class="text-secondary small">Enter contract staff details.</div>
+</div>
+<div class="d-flex gap-2">
+<button class="btn btn-outline-secondary btn-sm" id="contractClearBtn" type="button">
+<i class="bi bi-eraser"></i> Clear
+          </button>
+<button class="btn btn-primary btn-sm" id="contractSaveBtn" type="button">
+<i class="bi bi-check2-circle"></i> Save 
+          </button>
+</div>
+</div>
+<div class="card shadow-sm border-0">
+<div class="card-body p-3 p-md-4">
+<div class="row g-3">
+<div class="col-12 col-md-6">
+<label class="form-label">Name <span class="text-danger">*</span></label>
+<input class="form-control" id="c_name" placeholder="Full name" required=""/>
+<div class="invalid-feedback">Enter name.</div>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Birth Day</label>
+<input class="form-control" id="c_bday" type="date"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">NIC</label>
+<input class="form-control" id="c_nic" placeholder="NIC number"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label">Site <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="c_site" required="">
+<option disabled="" selected="" value="">Select site</option>
+<option value="MANAGER OFFICE (CE)">MANAGER OFFICE (CE)</option>
+<option value="AMPITIYA W.S.S">AMPITIYA W.S.S</option>
+<option value="MARASSANA W.S.S">MARASSANA W.S.S</option>
+<option value="MEDADUMBARA W.S.S">MEDADUMBARA W.S.S</option>
+<option value="MENIKHINNA W.S.S">MENIKHINNA W.S.S</option>
+<option value="HAGURANKETHA / RIKILLAGASKADA W.S.S">HAGURANKETHA / RIKILLAGASKADA W.S.S</option>
+<option value="WORKSHO &amp; STORES">WORKSHO &amp; STORES</option>
+<option value="Regional Lab">Regional Lab</option>
+<option value="DIGANA ZONE I">DIGANA ZONE I</option>
+<option value="DIGANA ZONE II">DIGANA ZONE II</option>
+<option value="Balagolla Zone">Balagolla Zone</option>
+<option value="Buluwamuduna Zone &amp; Araththana TP">Buluwamuduna Zone &amp; Araththana TP</option>
+<option value="PALLEKELE - BALAGOLLA TP">PALLEKELE - BALAGOLLA TP</option>
+<option value="THENNEKUMBURA / HARAGAMA W.S.S">THENNEKUMBURA / HARAGAMA W.S.S</option>
+<option value="WALAPANE W.S.S">WALAPANE W.S.S</option>
+<option value="RAGALA W.S.S">RAGALA W.S.S</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="c_site" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select site.</div>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label">Permanent Address</label>
+<input class="form-control" id="c_address" placeholder="Address"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Telephone Number</label>
+<input class="form-control" id="c_phone" inputmode="tel" placeholder="+94 7X XXX XXXX"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Contract No</label>
+<input class="form-control" id="c_contractNo" placeholder="Contract number"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Contractor</label>
+<input class="form-control" id="c_contractor" placeholder="Contractor name"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label">Contract Type <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="c_contractType" required="">
+<option disabled="" selected="" value="">Select contract type</option>
+<option value="Man power">Man power</option>
+<option value="Service contract">Service contract</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="c_contractType" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select contract type.</div>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label">Category <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="c_category" required="">
+<option disabled="" selected="" value="">Select category</option>
+<option value="skill">skill</option>
+<option value="unskill">unskill</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="c_category" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select category.</div>
+</div>
+<div class="col-12">
+<div class="alert alert-success d-none mb-0" id="contractSavedAlert" role="alert">
+                Saved to Firestore.
+              </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- LRDC: form -->
+<section class="d-none" id="lrdcView">
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+<div>
+<h2 class="h5 mb-1">LRDC</h2>
+<div class="text-secondary small">LRDC staff details.</div>
+</div>
+<div class="d-flex gap-2">
+<button class="btn btn-outline-secondary btn-sm" id="lrdcClearBtn" type="button">
+<i class="bi bi-eraser"></i> Clear
+          </button>
+<button class="btn btn-primary btn-sm" id="lrdcSaveBtn" type="button">
+<i class="bi bi-check2-circle"></i> Save 
+          </button>
+</div>
+</div>
+<div class="card shadow-sm border-0">
+<div class="card-body p-3 p-md-4">
+<div class="row g-3">
+<div class="col-12 col-md-6">
+<label class="form-label">Name <span class="text-danger">*</span></label>
+<input class="form-control" id="l_name" required=""/>
+<div class="invalid-feedback">Enter name.</div>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Emp No</label>
+<input class="form-control" id="l_empNo"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Designation</label>
+<select class="form-select allow-other" id="l_designation">
+<option value="Driver">Driver</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="l_designation" placeholder="Type other value" style="display:none;" type="text"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Site</label>
+<input class="form-control" id="l_site"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">File No</label>
+<input class="form-control" id="l_fileNo"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Duty Report</label>
+<input class="form-control" id="l_dutyReport" type="date"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">ID No</label>
+<input class="form-control" id="l_idNo"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Contact No</label>
+<input class="form-control" id="l_contactNo"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Transfer Date</label>
+<input class="form-control" id="l_transferDate" type="date"/>
+</div>
+<div class="col-12">
+<div class="alert alert-success d-none mb-0" id="lrdcSavedAlert">
+                Saved to Firestore.
+              </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="d-none" id="staffListView">
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+<div>
+<h2 class="h5 mb-1">Staff List</h2>
+<div class="text-secondary small">Step-by-step form .</div>
+</div>
+<div class="d-flex gap-2">
+<button class="btn btn-outline-secondary btn-sm" id="wizardClearBtn" type="button">
+<i class="bi bi-eraser"></i> Clear
+          </button>
+<button class="btn btn-primary btn-sm" id="wizardSaveBtn" type="button">
+<i class="bi bi-check2-circle"></i> Save 
+          </button>
+</div>
+</div>
+<div class="card shadow-sm border-0">
+<div class="card-body p-0">
+<!-- Progress -->
+<div class="p-3 p-md-4 border-bottom bg-white rounded-top">
+<div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+<div class="d-flex align-items-center gap-2">
+<span class="step-badge" id="stepBadge">Step 1 of 3</span>
+<span class="text-secondary small" id="stepHint">Identity details</span>
+</div>
+<div class="wizard-progress">
+<div class="wizard-progress-bar" id="wizardProgressBar" style="width: 33%;"></div>
+</div>
+</div>
+<div class="mt-3">
+<ul class="nav nav-pills nav-fill gap-2 wizard-tabs" id="wizardTabs" role="tablist">
+<li class="nav-item" role="presentation">
+<button class="nav-link active" data-step="0" id="tab-1" type="button">1. Identity</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" data-step="1" id="tab-2" type="button">2. Employment</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" data-step="2" id="tab-3" type="button">3. Other</button>
+</li>
+</ul>
+</div>
+</div>
+<div class="p-3 p-md-4">
+<form class="needs-validation" id="staffForm" novalidate="">
+<!-- STEP 1 -->
+<div class="wizard-step staff-step" data-step="0">
+<div class="row g-3">
+<div class="col-12 col-md-2">
+<label class="form-label">Title <span class="text-danger">*</span></label>
+<select class="form-select" id="title" required="">
+<option disabled="" selected="" value="">Select</option>
+<option>Mr</option>
+<option>Mrs</option>
+<option>Ms</option>
+</select>
+<div class="invalid-feedback">Select a title.</div>
+</div>
+<div class="col-12 col-md-7">
+<label class="form-label">Name <span class="text-danger">*</span></label>
+<input class="form-control" id="name" placeholder="Full name" required=""/>
+<div class="invalid-feedback">Enter the name.</div>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">ID. No</label>
+<input class="form-control" id="idNo" placeholder="NIC / ID"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Emp No</label>
+<input class="form-control" id="empNo" placeholder="E-123"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">P File No</label>
+<input class="form-control" id="pFileNo" placeholder="PF-456"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Contact No</label>
+<input class="form-control" id="contactNo" inputmode="tel" placeholder="+94 7X XXX XXXX"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Date of Birth</label>
+<input class="form-control" id="dob" type="date"/>
+</div>
+</div>
+</div>
+<!-- STEP 2 -->
+<div class="wizard-step staff-step" data-step="1">
+<div class="row g-3">
+<div class="col-12 col-lg-6">
+<label class="form-label">Designation Category <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="designationCategory" required=""><option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="designationCategory" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select designation category.</div>
+</div>
+<div class="col-12 col-lg-6">
+<label class="form-label">Designation <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="designation" required=""><option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="designation" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select designation.</div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Employment Type <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="employmentType" required="">
+<option disabled="" selected="" value="">Select employment type</option>
+<option>Permanent</option>
+<option>Trainee</option>
+<option>Contract</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="employmentType" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select employment type.</div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Date of Appointment <span class="text-danger">*</span></label>
+<input class="form-control" id="appointmentDate" required="" type="date"/>
+<div class="invalid-feedback">Select appointment date.</div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Service Duration in NWSDB</label>
+<div class="input-group">
+<span class="input-group-text"><i class="bi bi-hourglass-split"></i></span>
+<input class="form-control" id="serviceDurationNWSDB" placeholder="Auto calculated" readonly=""/>
+</div>
+<div class="form-text">Auto calculated from Date of Appointment.</div>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Board Grade</label>
+<input class="form-control" id="boardGrade" placeholder="Grade 2"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Site</label>
+<input class="form-control" id="site" placeholder="Site / Location"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Department</label>
+<input class="form-control" id="department" placeholder="Department"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Increment Date</label>
+<input class="form-control" id="incrementDate" type="date"/>
+</div>
+</div>
+</div>
+<!-- STEP 3 -->
+<div class="wizard-step staff-step" data-step="2">
+<div class="row g-3">
+<div class="col-12 col-md-4">
+<label class="form-label">Duty Report Date</label>
+<input class="form-control" id="dutyReportDate" type="date"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Service Duration in CE</label>
+<input class="form-control" id="serviceDurationCE" placeholder="e.g., 2 years"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Date of Retirement</label>
+<input class="form-control" id="retirementDate" type="date"/>
+</div>
+<div class="col-12">
+<label class="form-label">Remarks</label>
+<textarea class="form-control" id="remarks" placeholder="Any remarks..." rows="4"></textarea>
+</div>
+<div class="col-12">
+<div class="alert alert-info mb-0">
+<i class="bi bi-info-circle me-1"></i>
+                      Tip: Use the <b>Save</b> button at the top-right when finished.
+                    </div>
+</div>
+</div>
+</div>
+<div class="alert alert-success mt-4 d-none" id="savedAlert" role="alert">
+                Saved to Firestore.
+              </div>
+<!-- Navigation -->
+<div class="d-flex justify-content-between align-items-center mt-4">
+<button class="btn btn-outline-secondary" id="prevStepBtn" type="button">
+<i class="bi bi-chevron-left"></i> Previous
+                </button>
+<div class="d-flex gap-2">
+<button class="btn btn-primary" id="nextStepBtn" type="button">
+                    Next <i class="bi bi-chevron-right"></i>
+</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- CLEANING SERVICE CONTRACT -->
+<section class="d-none" id="cleaningServiceView">
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+<div>
+<h2 class="h5 mb-1">Cleaning Service Contract</h2>
+<div class="text-secondary small">Enter cleaning service contract staff details.</div>
+</div>
+<div class="d-flex gap-2">
+<button class="btn btn-outline-secondary btn-sm" id="cleaningClearBtn" type="button">
+<i class="bi bi-eraser"></i> Clear
+          </button>
+<button class="btn btn-primary btn-sm" id="cleaningSaveBtn" type="button">
+<i class="bi bi-check2-circle"></i> Save 
+          </button>
+</div>
+</div>
+<div class="card shadow-sm border-0">
+<div class="card-body p-3 p-md-4">
+<div class="row g-3">
+<div class="col-12 col-md-6">
+<label class="form-label">Name <span class="text-danger">*</span></label>
+<input class="form-control" id="cs_name" placeholder="Full name" required=""/>
+<div class="invalid-feedback">Enter name.</div>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">Birth Day</label>
+<input class="form-control" id="cs_bday" type="date"/>
+</div>
+<div class="col-12 col-md-3">
+<label class="form-label">NIC</label>
+<input class="form-control" id="cs_nic" placeholder="NIC number"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label">Site <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="cs_site" required="">
+<option disabled="" selected="" value="">Select site</option>
+<option value="MANAGER OFFICE (CE)">MANAGER OFFICE (CE)</option>
+<option value="AMPITIYA W.S.S">AMPITIYA W.S.S</option>
+<option value="MARASSANA W.S.S">MARASSANA W.S.S</option>
+<option value="MEDADUMBARA W.S.S">MEDADUMBARA W.S.S</option>
+<option value="MENIKHINNA W.S.S">MENIKHINNA W.S.S</option>
+<option value="HAGURANKETHA / RIKILLAGASKADA W.S.S">HAGURANKETHA / RIKILLAGASKADA W.S.S</option>
+<option value="WORKSHO &amp; STORES">WORKSHO &amp; STORES</option>
+<option value="Regional Lab">Regional Lab</option>
+<option value="DIGANA ZONE I">DIGANA ZONE I</option>
+<option value="DIGANA ZONE II">DIGANA ZONE II</option>
+<option value="Balagolla Zone">Balagolla Zone</option>
+<option value="Buluwamuduna Zone &amp; Araththana TP">Buluwamuduna Zone &amp; Araththana TP</option>
+<option value="PALLEKELE - BALAGOLLA TP">PALLEKELE - BALAGOLLA TP</option>
+<option value="THENNEKUMBURA / HARAGAMA W.S.S">THENNEKUMBURA / HARAGAMA W.S.S</option>
+<option value="WALAPANE W.S.S">WALAPANE W.S.S</option>
+<option value="RAGALA W.S.S">RAGALA W.S.S</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="cs_site" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select site.</div>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label">Permanent Address</label>
+<input class="form-control" id="cs_address" placeholder="Address"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Telephone Number</label>
+<input class="form-control" id="cs_phone" inputmode="tel" placeholder="+94 7X XXX XXXX"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Contract No</label>
+<input class="form-control" id="cs_contractNo" placeholder="Contract number"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Contractor</label>
+<input class="form-control" id="cs_contractor" placeholder="Contractor name"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label">Contractor Type <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="cs_contractType" required="">
+<option disabled="" selected="" value="">Select contractor type</option>
+<option value="Cleaning">Cleaning</option>
+<option value="Man power">Man power</option>
+<option value="Service contract">Service contract</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="cs_contractType" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select contractor type.</div>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label">Category <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="cs_category" required="">
+<option disabled="" selected="" value="">Select category</option>
+<option value="Skill">Skill</option>
+<option value="Unskill">Unskill</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="cs_category" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select category.</div>
+</div>
+<div class="col-12">
+<div class="alert alert-success d-none mb-0" id="cleaningSavedAlert" role="alert">
+                Saved to Firestore.
+              </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TRAINEE DETAILS -->
+<section class="d-none" id="traineeView">
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+<div>
+<h2 class="h5 mb-1">Trainee Details</h2>
+<div class="text-secondary small">Enter trainee details.</div>
+</div>
+<div class="d-flex gap-2">
+<button class="btn btn-outline-secondary btn-sm" id="traineeClearBtn" type="button">
+<i class="bi bi-eraser"></i> Clear
+          </button>
+<button class="btn btn-primary btn-sm" id="traineeSaveBtn" type="button">
+<i class="bi bi-check2-circle"></i> Save
+          </button>
+</div>
+</div>
+<div class="card shadow-sm border-0">
+<div class="card-body p-3 p-md-4">
+<div class="row g-3">
+<div class="col-12 col-md-6">
+<label class="form-label">Name <span class="text-danger">*</span></label>
+<input class="form-control" id="tr_name" placeholder="Full name" required=""/>
+<div class="invalid-feedback">Enter name.</div>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label">Site / Section <span class="text-danger">*</span></label>
+<select class="form-select allow-other" id="tr_site" required="">
+<option disabled="" selected="" value="">Select site / section</option>
+<option value="Balagolla W.S.S">Balagolla W.S.S</option>
+<option value="Digana 1">Digana 1</option>
+<option value="Digana 11">Digana 11</option>
+<option value="HR Section ( Manager Office)">HR Section ( Manager Office)</option>
+<option value="Haragama W.S.S">Haragama W.S.S</option>
+<option value="Lab">Lab</option>
+<option value="Madadumbara">Madadumbara</option>
+<option value="Work Shop">Work Shop</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="tr_site" placeholder="Type other value" style="display:none;" type="text"/>
+<div class="invalid-feedback">Select site / section.</div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Birthday</label>
+<input class="form-control" id="t_bday" type="date"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">ID Number <span class="text-danger">*</span></label>
+<input class="form-control" id="t_id" placeholder="NIC / ID number" required=""/>
+<div class="invalid-feedback">Enter ID number.</div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Phone Number</label>
+<input class="form-control" id="t_phone" inputmode="tel" placeholder="07X-XXXXXXX"/>
+</div>
+<div class="col-12 col-md-8">
+<label class="form-label">Technical Course</label>
+<input class="form-control" id="t_course" placeholder="Course / institute"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label">Training Period (months)</label>
+<input class="form-control" id="t_period" min="0" placeholder="e.g., 6" step="1" type="number"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label">Training Start Date <span class="text-danger">*</span></label>
+<input class="form-control" id="t_start" required="" type="date"/>
+<div class="invalid-feedback">Select start date.</div>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label">Training End Date <span class="text-danger">*</span></label>
+<input class="form-control" id="t_end" required="" type="date"/>
+<div class="invalid-feedback">Select end date.</div>
+</div>
+<div class="col-12">
+<div class="alert alert-success d-none mb-0" id="traineeSavedAlert" role="alert">
+                Saved to Firestore.
+              </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- OTHER SECTIONS: simple table template -->
+<section class="d-none" id="tableView">
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+<div>
+<h2 class="h5 mb-1" id="tableTitle">Section</h2>
+<div class="text-secondary small">Saved records for the selected section.</div>
+</div>
+<div class="records-controls d-flex align-items-center gap-2 flex-wrap">
+<div class="input-group input-group-sm records-search">
+<span class="input-group-text"><i class="bi bi-search"></i></span>
+<input autocomplete="off" class="form-control" id="tableSearchInput" placeholder="Search (name / NIC / ID / anything)…" type="search"/>
+<button class="btn btn-outline-secondary" id="tableClearSearch" title="Clear search" type="button">
+<i class="bi bi-x-lg"></i>
+</button>
+</div>
+<select aria-label="Filter by Site" class="form-select form-select-sm d-none allow-other" id="filterSite">
+<option value="">All sites</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="filterSite" placeholder="Type other value" style="display:none;" type="text"/>
+<select aria-label="Filter by Department" class="form-select form-select-sm d-none allow-other" id="filterDepartment">
+<option value="">All departments</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="filterDepartment" placeholder="Type other value" style="display:none;" type="text"/>
+<select aria-label="Filter by Category" class="form-select form-select-sm d-none allow-other" id="filterCategory">
+<option value="">All categories</option>
+<option value="__other__">Other (type...)</option></select><input class="form-control other-input mt-2" data-for="filterCategory" placeholder="Type other value" style="display:none;" type="text"/>
+<button class="btn btn-outline-secondary btn-sm d-none" id="clearTableFilters" type="button">
+            Clear filters
+          </button>
+</div>
+</div>
+<div class="card shadow-sm border-0">
+<div class="table-responsive records-table-wrap">
+<table class="table table-striped table-hover mb-0 align-middle">
+<thead class="table-light"><tr id="tableHeadRow"></tr></thead>
+<tbody id="tableBody"></tbody>
+</table>
+</div>
+</div>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Firebase (compat builds so it works even when opened as a local file) -->
+<script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore-compat.js"></script>
+<!-- App (Firestore enabled) -->
+<script src="app.js"></script>
+</body>
+</html>
